@@ -1,0 +1,24 @@
+# Maximum line width
+max_width = 100
+comment_width = 100
+
+# How to reorder modules, functions, etc
+reorder_modules = true
+reorder_impl_items = true
+
+# Merge imports
+imports_granularity = "Crate"
+
+# Use a trailing comma for multiline function arguments and struct fields
+trailing_comma = "Vertical"
+# Indentation configuration
+tab_spaces = 4
+
+# Control flow brace style
+control_brace_style = "AlwaysSameLine"
+
+# Function parameters layout
+fn_params_layout = "Compressed"
+
+# Remove spaces inside parentheses
+remove_nested_parens = true
