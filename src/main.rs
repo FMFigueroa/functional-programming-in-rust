@@ -7,7 +7,7 @@ where
     f(x)
 }
 
-// Exmaple 2
+// Example 2
 fn map<T, U, F>(collection: &[T], f: F) -> Vec<U>
 where
     //  Trait bound Fn
@@ -21,7 +21,7 @@ fn main() {
     let result = foo(|x| x * x, 2);
     println!("{}", result);
 
-    // Exmple 2
+    // Example 2
     let numbers = vec![1, 2, 3, 4, 5];
     // Map: Aplicar una función a cada elemento de la colección
     let squared_numbers: Vec<i32> = map(&numbers, |x| x * x);
