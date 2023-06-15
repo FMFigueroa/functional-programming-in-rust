@@ -89,4 +89,12 @@ fn main() {
         .fold(0, |acc, x| acc + x);
 
     println!("Result: {}", result);
+    
+    // Exmaple 6
+    let names = vec!["Alice", "Bob", "Charlie"];
+    let lengths: Vec<usize> = names.iter().map(|name| name.len()).collect();
+    println!("Result: {:?}", lengths);
+
+    let total = lengths.iter().fold(0, |acc, &lengths| acc + lengths);
+    println!("Result: {:?}", total);
 }
