@@ -79,4 +79,14 @@ fn main() {
         .collect();
 
     print!("{:?}", complex_values);
+
+    // Example 5
+    let result: i32 = (0..10)
+        .map(|x| x + 1)
+        .inspect(|x| println!("Inspecting: {}", x))
+        .filter(|x| x % 2 == 0)
+        .filter_map(|x| if x < 5 { Some(x) } else { None })
+        .fold(0, |acc, x| acc + x);
+
+    println!("Result: {}", result);
 }
