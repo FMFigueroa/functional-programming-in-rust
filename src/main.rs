@@ -62,4 +62,21 @@ fn main() {
         println!("Value: {:?}", value);
     };
     apply_closure(print_value, data);
+
+    // Example 4
+    let complex_values: Vec<_> = (0..10)
+        .map(|x| {
+            // Definición de función en el cierre
+            fn complex_equation(y: i32) -> i32 {
+                // Ecuación compleja
+                y.pow(2) + 2 * y + 1
+            }
+
+            let result = complex_equation(x); // Variable vinculada
+
+            result
+        })
+        .collect();
+
+    print!("{:?}", complex_values);
 }
