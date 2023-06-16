@@ -17,7 +17,7 @@ where
 }
 
 // Example 3 ========================================
-use std::fmt::Debug;
+use std::{collections::HashMap, fmt::Debug};
 fn print_value<T: Debug>(value: T) {
     println!("Value: {:?}", value);
 }
@@ -89,7 +89,7 @@ fn main() {
         .fold(0, |acc, x| acc + x);
 
     println!("Result: {}", result);
-    
+
     // Exmaple 6
     let names = vec!["Alice", "Bob", "Charlie"];
     let lengths: Vec<usize> = names.iter().map(|name| name.len()).collect();
@@ -97,4 +97,23 @@ fn main() {
 
     let total = lengths.iter().fold(0, |acc, &lengths| acc + lengths);
     println!("Result: {:?}", total);
+
+    // Example 7 Fn()
+    let mut bucket = HashMap::new();
+    bucket.insert("Jhon", 20);
+    bucket.insert("patrick", 35);
+    bucket.insert("jesse", 18);
+    let closure = || {
+        for (key, value) in &bucket {
+            // oops!
+            println!("name:{:?} age:{:?}", key, value);
+        }
+    };
+    fn call<F>(closure: F)
+    where
+        F: Fn(),
+    {
+        closure();
+    }
+    call(closure);
 }
