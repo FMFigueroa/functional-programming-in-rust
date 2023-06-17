@@ -1,5 +1,5 @@
 // Example 1 =====================================
-fn bar<F, T>(f: F, x: T) -> T
+fn foo<F, T>(f: F, x: T) -> T
 where
     //  Trait bound Fn
     F: Fn(T) -> T,
@@ -81,15 +81,15 @@ fn main() {
     println!("{:?}", complex_values);
 
     // Example 4.1
-    fn foo<F>(g: F, x: u32) -> u32
+    fn bar<F>(g: F, x: u32) -> u32
     where
         F: Fn(u32) -> u32,
     {
         let result = g(g(x));
         result + x
     }
-    let res_foo = foo(|n| n * 2, 5);
-    println!("Res_Foo: {}", res_foo);
+    let res_bar = bar(|n| n * 2, 5);
+    println!("Res_Foo: {}", res_bar);
 
     // Example 5
     let result: i32 = (0..10)
