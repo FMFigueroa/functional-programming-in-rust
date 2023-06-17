@@ -123,6 +123,9 @@ fn main() {
     {
         closure();
         closure();
+        closure();
+        closure();
+        closure();
     }
 
     let mut i = 0;
