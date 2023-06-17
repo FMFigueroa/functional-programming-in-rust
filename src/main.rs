@@ -90,7 +90,7 @@ fn main() {
 
     println!("Result: {}", result);
 
-    // Exmaple 6
+    // Example 6
     let names = vec!["Alice", "Bob", "Charlie"];
     let lengths: Vec<usize> = names.iter().map(|name| name.len()).collect();
     println!("Result: {:?}", lengths);
@@ -103,9 +103,8 @@ fn main() {
     bucket.insert("Jhon", 20);
     bucket.insert("patrick", 35);
     bucket.insert("jesse", 18);
-    let closure = || {
+    let map_bucket = || {
         for (key, value) in &bucket {
-            // oops!
             println!("name:{:?} age:{:?}", key, value);
         }
     };
@@ -115,5 +114,21 @@ fn main() {
     {
         closure();
     }
-    call(closure);
+    call(map_bucket);
+
+    // Example 8 FnMut()
+    fn call_twice<F>(mut closure: F)
+    where
+        F: FnMut(),
+    {
+        closure();
+        closure();
+    }
+
+    let mut i = 0;
+    let incr = || {
+        i += 1; // incr borrows a mut reference to i
+        println!("Ding! i is now: {}", i);
+    };
+    call_twice(incr);
 }
