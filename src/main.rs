@@ -134,4 +134,20 @@ fn main() {
         println!("Ding! i is now: {}", i);
     };
     call_twice(incr);
+
+    // Example 9
+    let y = 10;
+    let add_y = |x| x + y;
+    let copy_of_add_y = add_y;
+    // This closure is `Copy`, so...
+    assert_eq!(add_y(copy_of_add_y(22)), 42); // ... we can call both.
+
+    // Example 10
+    let mut greeting = String::from("Hello, ");
+    let greet = move |name| {
+        greeting.push_str(name);
+        println!("{}", greeting);
+    };
+    greet.clone()("Alfred");
+    greet.clone()("Bruce");
 }
