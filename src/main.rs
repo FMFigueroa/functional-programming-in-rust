@@ -53,6 +53,17 @@ fn chop(b: Broom) -> (Broom, Broom) {
 
     (broom1, broom2)
 }
+
+//==========================================================================
+// Example 3 Tuple-Like Structs
+struct Bounds(usize, usize);
+
+fn tuple_fn(elem0: usize, elem1: usize) -> Bounds {
+    let tuple = Bounds(elem0, elem1);
+
+    tuple
+}
+
 fn main() {
     // Example 1
     let width = 2;
@@ -88,4 +99,8 @@ fn main() {
 
     //==========================================================================
     // Example 3 Tuple-Like Structs
+    let image_bounds = Bounds(1024, 768);
+    assert_eq!(image_bounds.0 * image_bounds.1, 786432);
+    let tuple = tuple_fn(100, 200);
+    assert_eq!((tuple.0, tuple.1), (100, 200));
 }
