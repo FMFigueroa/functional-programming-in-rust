@@ -103,4 +103,10 @@ fn main() {
     assert_eq!(image_bounds.0 * image_bounds.1, 786432);
     let tuple = tuple_fn(100, 200);
     assert_eq!((tuple.0, tuple.1), (100, 200));
+
+    //==========================================================================
+    // Example 4 Unit-Like Structs
+    //A value of such a type occupies no memory, much like the unit type ()
+    struct Onesuch;
+    let o = Onesuch;
 }
