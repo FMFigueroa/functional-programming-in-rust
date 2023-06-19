@@ -1,3 +1,4 @@
+#[warn(dead_code)]
 // Example 1
 #[derive(Debug)]
 pub struct GrayscaleMap {
@@ -24,7 +25,7 @@ struct Broom {
     position: (f32, f32, f32),
     intent: BroomIntent,
 }
-/// Two possible alternatives for what a `Broom` could be working on.
+// Two possible alternatives for what a `Broom` could be working on.
 #[derive(Copy, Clone)]
 enum BroomIntent {
     FetchWater,
@@ -65,6 +66,12 @@ fn tuple_fn(elem0: usize, elem1: usize) -> Bounds {
 }
 
 //==========================================================================
+// Example 4 Unit-Like Structs
+// A value of such a type occupies no memory, much like the unit type ()
+#[warn(unused_variables)]
+struct Onesuch;
+
+//==========================================================================
 // Example 5 Defining Methods with impl
 /// A first-in, first-out queue of characters.
 pub struct Queue {
@@ -72,13 +79,15 @@ pub struct Queue {
     younger: Vec<char>, // younger elements, youngest last.
 }
 impl Queue {
-    /// Push a character onto the back of a queue.
+    // Push a character onto the back of a queue.
+    // &mut self
     pub fn push(&mut self, c: char) {
         self.younger.push(c);
     }
 
-    /// Pop a character off the front of a queue. Return `Some(c)` if there
-    /// was a character to pop, or `None` if the queue was empty.
+    // Pop a character off the front of a queue. Return `Some(c)` if there
+    // was a character to pop, or `None` if the queue was empty.
+    // &mut self
     pub fn pop(&mut self) -> Option<char> {
         if self.older.is_empty() {
             if self.younger.is_empty() {
@@ -94,6 +103,18 @@ impl Queue {
         // Now older is guaranteed to have something. Vec's pop method
         // already returns an Option, so we're set.
         self.older.pop()
+    }
+
+    //&self
+    //the method call expression knows which sort of reference to borrow
+    pub fn is_empty(&self) -> bool {
+        self.older.is_empty() && self.younger.is_empty()
+    }
+
+    // self
+    // if a method wants to take ownership of self, it can take self by value:
+    pub fn split(self) -> (Vec<char>, Vec<char>) {
+        (self.older, self.younger)
     }
 }
 
@@ -139,8 +160,6 @@ fn main() {
 
     //==========================================================================
     // Example 4 Unit-Like Structs
-    //A value of such a type occupies no memory, much like the unit type ()
-    struct Onesuch;
     let o = Onesuch;
 
     //==========================================================================
@@ -158,4 +177,26 @@ fn main() {
     assert_eq!(q.pop(), Some('1'));
     assert_eq!(q.pop(), Some('∞'));
     assert_eq!(q.pop(), None);
+
+    // the method call expression knows which sort of reference to borrow
+    assert!(q.is_empty());
+    q.push('☉');
+    assert!(!q.is_empty());
+
+    //==========================================================================
+    // Example 6 take ownership of self by value
+    let mut q2 = Queue {
+        older: Vec::new(),
+        younger: Vec::new(),
+    };
+
+    q2.push('P');
+    q2.push('D');
+    assert_eq!(q2.pop(), Some('P'));
+    q2.push('X');
+
+    let (older, younger) = q2.split();
+    // q2 is now uninitialized.
+    assert_eq!(older, vec!['D']);
+    assert_eq!(younger, vec!['X']);
 }
