@@ -111,10 +111,31 @@ impl Queue {
         self.older.is_empty() && self.younger.is_empty()
     }
 
-    // self
+    // self by value
     // if a method wants to take ownership of self, it can take self by value:
     pub fn split(self) -> (Vec<char>, Vec<char>) {
         (self.older, self.younger)
+    }
+}
+
+//==========================================================================
+// Example 7 Passing Self as Box<Self>, Rc<Self>, Arc<Self>.
+use std::rc::Rc;
+struct Node {
+    tag: String,
+    children: Vec<Rc<Node>>,
+}
+
+impl Node {
+    fn new(tag: &str) -> Node {
+        Node {
+            tag: tag.to_string(),
+            children: vec![],
+        }
+    }
+
+    fn append_to(self: Rc<Self>, parent: &mut Node) {
+        parent.children.push(self);
     }
 }
 
@@ -199,4 +220,8 @@ fn main() {
     // q2 is now uninitialized.
     assert_eq!(older, vec!['D']);
     assert_eq!(younger, vec!['X']);
+
+    // Example 7 Passing Self as Box<Self>, Rc<Self>, Arc<Self>.
+    let shared_node = Rc::new(Node::new("first"));
+    shared_node.clone().append_to(&mut parent);
 }
