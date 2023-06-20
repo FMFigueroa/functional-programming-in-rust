@@ -146,6 +146,68 @@ impl Node {
     }
 }
 
+//===============================================================
+// Example 9 self as Box<Self>
+struct Persona {
+    nombre: String,
+    edad: u32,
+    hijo: Option<Box<Persona>>,
+}
+
+impl Persona {
+    fn nueva(nombre: String, edad: u32) -> Box<Self> {
+        Box::new(Persona {
+            nombre,
+            edad,
+            hijo: None,
+        })
+    }
+
+    fn agregar_hijo(&mut self, nombre: String, edad: u32) {
+        if let Some(hijo) = &mut self.hijo {
+            hijo.agregar_hijo(nombre, edad);
+        } else {
+            self.hijo = Some(Persona::nueva(nombre, edad));
+        }
+    }
+
+    fn imprimir(&self) {
+        println!("Nombre: {}, Edad: {}", self.nombre, self.edad);
+        if let Some(hijo) = &self.hijo {
+            hijo.imprimir();
+        }
+    }
+}
+
+//=====================================================================
+// Example 10
+struct MiEstructura {
+    dato: i32,
+}
+
+impl MiEstructura {
+    fn consumir(self: Box<Self>) {
+        println!("Consumiendo la estructura con dato: {}", self.dato);
+        // Aquí se puede acceder a los campos de la estructura y trabajar con ellos.
+        // Una vez que se consume la estructura, se libera automáticamente de la memoria al finalizar este método.
+    }
+}
+
+//=====================================================================
+// Example 11 Interior Mutability
+use std::cell::RefCell;
+
+struct MiEstructuraRefCell {
+    dato: i32,
+}
+
+impl MiEstructuraRefCell {
+    fn modificar(&self) -> i32 {
+        self.dato + 10
+    }
+}
+
+//=====================================================================
 fn main() {
     // Example 1
     let width = 2;
@@ -238,4 +300,42 @@ fn main() {
     // This is fine: Rust borrows a `&mut Queue` from the `Box` for the
     // duration of the call.
     bq.push('■');
+
+    //===============================================================
+    // Example 9 self as Box<Self>
+    let mut abuelo = Persona::nueva(String::from("Juan"), 70);
+    let mut padre = Persona::nueva(String::from("Pedro"), 45);
+    let mut hijo = Persona::nueva(String::from("Carlos"), 25);
+    let nieto = Persona::nueva(String::from("Maria"), 5);
+
+    hijo.hijo = Some(nieto);
+    padre.hijo = Some(hijo);
+    abuelo.hijo = Some(padre);
+
+    abuelo.imprimir();
+    //================================================================
+    // Example 10 self as Box<Self>
+    /*
+    * En el caso de Box<Self>, se transfiere la propiedad de la estructura al Box y,
+    * una vez que el Box se consume, la estructura se desasigna automáticamente.
+     */
+     let mi_estructura = Box::new(MiEstructura { dato: 42 });
+        mi_estructura.consumir();
+    // Una vez que se llama al método consumir, se consume y desasigna la estructura automáticamente.
+    //================================================================
+    // Example 11 Interior Mutability
+    let mi_estructura_ref_cell = Rc::new(RefCell::new(MiEstructuraRefCell { dato: 42 }));
+    /*
+     * La mutabilidad interior permite que varios objetos
+     * compartan la misma instancia mutable de datos mientras
+     * se garantiza el cumplimiento de las reglas de préstamo
+     * y mutabilidad de Rust mediante el uso de RefCell.
+     */
+    {
+        let mut mutable = mi_estructura_ref_cell.borrow_mut();
+        mutable.dato += 5;
+    }
+
+    let resultado_ref_cell = mi_estructura_ref_cell.borrow().modificar();
+    println!("Resultado: {}", resultado_ref_cell);
 }
