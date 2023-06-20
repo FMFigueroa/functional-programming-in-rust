@@ -79,6 +79,13 @@ pub struct Queue {
     younger: Vec<char>, // younger elements, youngest last.
 }
 impl Queue {
+    pub fn new() -> Self {
+        Queue {
+            older: Vec::new(),
+            younger: Vec::new(),
+        }
+    }
+
     // Push a character onto the back of a queue.
     // &mut self
     pub fn push(&mut self, c: char) {
@@ -223,5 +230,12 @@ fn main() {
 
     // Example 7 Passing Self as Box<Self>, Rc<Self>, Arc<Self>.
     let shared_node = Rc::new(Node::new("first"));
-    shared_node.clone().append_to(&mut parent);
+    //shared_node.clone().append_to(&mut parent);
+
+    // Example 8
+    let mut bq = Box::new(Queue::new());
+    // `Queue::push` expects a `&mut Queue`, but `bq` is a `Box<Queue>`.
+    // This is fine: Rust borrows a `&mut Queue` from the `Box` for the
+    // duration of the call.
+    bq.push('■');
 }
