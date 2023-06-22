@@ -14,12 +14,12 @@ fn main() {
 
     //========================================================
     // Functional Programming
-    // Map Adapter
+    // map adapter
     let v1: Vec<&str> = text.lines().map(str::trim).collect();
     assert_eq!(v1, ["ponies", "giraffes", "iguanas", "squid"]);
     println!("{:?}", v1);
 
-    // Filter Adapter
+    // filter adapter
     let v2: Vec<&str> = text
         .lines()
         .map(str::trim)
@@ -27,4 +27,15 @@ fn main() {
         .collect();
     assert_eq!(v2, ["ponies", "giraffes", "squid"]);
     println!("{:?}", v2);
+
+    // filter_map adapter
+    use std::str::FromStr;
+
+    let text = "1\nfrond .25  289\n3.1415 estuary\n";
+    for number in text
+        .split_whitespace()
+        .filter_map(|w| f64::from_str(w).ok())
+    {
+        println!("{:4.2}", number.sqrt());
+    }
 }
