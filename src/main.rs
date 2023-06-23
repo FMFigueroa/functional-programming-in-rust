@@ -38,4 +38,40 @@ fn main() {
     {
         println!("{:4.2}", number.sqrt());
     }
+
+    // filter_map adapter
+    for number in text
+        .split_whitespace()
+        .map(|w| f64::from_str(w))
+        .filter(|r| r.is_ok())
+        .map(|r| r.unwrap())
+    {
+        println!("{:4.2}", number.sqrt());
+    }
+
+    // filter_map adapter without for cycle
+    let text2 = "1\nfrond .25  289\n3.1415 estuary\n";
+    let v3: Vec<f64> = text2
+        .split_whitespace()
+        .filter_map(|s| f64::from_str(s).ok())
+        .map(|x| x.sqrt())
+        .collect();
+
+    println!("{:.2?}", v3);
+
+    // flat_map adapter
+    use std::collections::HashMap;
+
+    let mut major_cities = HashMap::new();
+    major_cities.insert("Japan", vec!["Tokyo", "Kyoto"]);
+    major_cities.insert("The United States", vec!["Portland", "Nashville"]);
+    major_cities.insert("Brazil", vec!["São Paulo", "Brasília"]);
+    major_cities.insert("Kenya", vec!["Nairobi", "Mombasa"]);
+    major_cities.insert("The Netherlands", vec!["Amsterdam", "Utrecht"]);
+
+    let countries = ["Japan", "Brazil", "Kenya"];
+
+    for &city in countries.iter().flat_map(|country| &major_cities[country]) {
+        println!("{}", city);
+    }
 }
