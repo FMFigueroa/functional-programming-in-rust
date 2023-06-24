@@ -182,6 +182,18 @@ fn main() {
         })
         .collect();
     println!("{:?}", s4);
+
+    // take and take_while adapter
+    let message = "
+    To: jimb\r\n
+    From: superego <editor@oreilly.com>\r\n
+    \r\n
+    Did you get any writing done today?\r\n
+    When will you stop wasting time plotting fractals?\r\n";
+
+    for header in message.lines().take_while(|line| !line.is_empty()) {
+        println!("{}", header);
+    }
 }
 
 fn to_uppercase(input: &str) -> String {
