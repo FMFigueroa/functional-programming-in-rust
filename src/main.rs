@@ -122,9 +122,66 @@ fn main() {
 
     let name = "hernandez".to_string();
     let s1 = to_uppercase(&name);
-    let s2 = to_uppercase2(&name);
     println!("{}", s1);
-    println!("{}", s2);
+
+    // version 1
+    let nombres: String = "hernandez, carlos,  ramon, pedro".to_string();
+    let s2: Vec<String> = nombres
+        .split(", ")
+        .map(|nombre| nombre.trim().to_uppercase())
+        .collect();
+    println!("{:?}", s2);
+
+    // version 2
+    let s2: Vec<String> = nombres
+        .split(", ")
+        .map(|nombre| {
+            nombre
+                .trim()
+                .chars()
+                .enumerate()
+                .map(|(i, c)| {
+                    if i == 0 {
+                        c.to_uppercase().next().unwrap()
+                    } else {
+                        c
+                    }
+                })
+                .collect::<String>()
+        })
+        .collect();
+    println!("{:?}", s2);
+
+    // version 3
+    let s3: Vec<String> = nombres
+        .split(", ")
+        .map(|nombre| {
+            let mut nombre = nombre.trim().to_lowercase().to_string();
+            if let Some(first_char) = nombre.chars().next() {
+                let uppercased = first_char.to_uppercase();
+                nombre.replace_range(..1, &uppercased.to_string());
+            }
+            nombre
+        })
+        .collect();
+    println!("{:?}", s3);
+
+    // version 4
+    let s4: Vec<String> = nombres
+        .split(", ")
+        .map(|nombre| {
+            nombre
+                .trim()
+                .chars()
+                .enumerate()
+                .map(|(i, c)| match i {
+                    0 => c.to_uppercase().collect::<String>(),
+                    _ => c.to_string(),
+                })
+                .collect::<String>()
+        })
+        .collect();
+    println!("{:?}", s4);
 }
 
 fn to_uppercase(input: &str) -> String {
@@ -133,8 +190,4 @@ fn to_uppercase(input: &str) -> String {
         .map(char::to_uppercase)
         .flatten() // there's a better way
         .collect()
-}
-
-fn to_uppercase2(input: &str) -> String {
-    input.chars().flat_map(char::to_uppercase).collect()
 }
