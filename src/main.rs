@@ -287,7 +287,10 @@ fn main() {
     for body in lines {
         println!("{}", body);
     }
-    // cloned, copied adapter
+    // cloned vs copied adapter
+    let a = vec!['1', '2', '3', '∞'];
+    assert_eq!(a.iter().next(), Some(&'1'));
+    assert_eq!(a.iter().cloned().next(), Some('1'));
 }
 
 // faltten adapter
