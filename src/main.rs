@@ -254,6 +254,24 @@ fn main() {
     // chain adapter
     let v_chain: Vec<i32> = (1..4).chain(vec![20, 30, 40]).collect();
     assert_eq!(v_chain, [1, 2, 3, 20, 30, 40]);
+    // chain adapter rev
+    let v_chain: Vec<i32> = (1..4).chain(vec![20, 30, 40]).rev().collect();
+    assert_eq!(v_chain, [40, 30, 20, 3, 2, 1]);
+    // zip adapter
+    let v_zip: Vec<_> = (0..).zip("ABCD".chars()).collect();
+    assert_eq!(v_zip, vec![(0, 'A'), (1, 'B'), (2, 'C'), (3, 'D')]);
+
+    use std::iter::repeat;
+    let endings = vec!["once", "twice", "chicken soup with rice"];
+    let rhyme: Vec<_> = repeat("going").zip(endings).collect();
+    assert_eq!(
+        rhyme,
+        vec![
+            ("going", "once"),
+            ("going", "twice"),
+            ("going", "chicken soup with rice")
+        ]
+    );
 }
 
 // faltten adapter
