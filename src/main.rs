@@ -112,6 +112,7 @@ fn main() {
         ]
     );
 
+    // flatten adapter
     assert_eq!(
         vec![None, Some("day"), None, Some("one")]
             .into_iter()
@@ -120,6 +121,7 @@ fn main() {
         vec!["day", "one"]
     );
 
+    // faltten adapter
     let name = "hernandez".to_string();
     let s1 = to_uppercase(&name);
     println!("{}", s1);
@@ -184,22 +186,55 @@ fn main() {
     println!("{:?}", s4);
 
     // take and take_while adapter
-    let message = "
-    To: jimb\r\n
-    From: superego <editor@oreilly.com>\r\n
-    \r\n
-    Did you get any writing done today?\r\n
+    let msn = "To: jimb\r\n\
+    From: superego <editor@oreilly.com>\r\n\
+    \r\n\
+    Did you get any writing done today?\r\n\
     When will you stop wasting time plotting fractals?\r\n";
 
-    for header in message.lines().take_while(|line| !line.is_empty()) {
+    // take and take_while adapter
+    for header in msn.lines().take_while(|line| !line.is_empty()) {
         println!("{}", header);
     }
+
+    // skip and skip_while adapter
+    for body in msn.lines().skip_while(|l| !l.is_empty()).skip(1) {
+        println!("{}", body);
+    }
+
+    // peekable adapter
+    let mut chars = "226153980,1766319049".chars().peekable();
+    assert_eq!(parse_number(&mut chars), 226153980);
+    // Look, `parse_number` didn't consume the comma! So we will.
+    assert_eq!(chars.next(), Some(','));
+    assert_eq!(parse_number(&mut chars), 1766319049);
+    assert_eq!(chars.next(), None);
 }
 
+// faltten adapter
 fn to_uppercase(input: &str) -> String {
     input
         .chars()
         .map(char::to_uppercase)
         .flatten() // there's a better way
         .collect()
+}
+
+// peekable adapter
+use std::iter::Peekable;
+
+fn parse_number<I>(tokens: &mut Peekable<I>) -> u32
+where
+    I: Iterator<Item = char>,
+{
+    let mut n = 0;
+    loop {
+        match tokens.peek() {
+            Some(r) if r.is_digit(10) => {
+                n = n * 10 + r.to_digit(10).unwrap();
+            }
+            _ => return n,
+        }
+        tokens.next();
+    }
 }
