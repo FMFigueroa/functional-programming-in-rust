@@ -220,6 +220,17 @@ fn main() {
     assert_eq!(not_flaky.next(), Some("totally the last item"));
     assert_eq!(not_flaky.next(), None);
     assert_eq!(not_flaky.next(), None);
+
+    // trait DoubleEndedIterator | next and next_back
+    let bee_parts = ["head", "thorax", "abdomen"];
+    let mut iter = bee_parts.iter();
+
+    assert_eq!(iter.next(), Some(&"head"));
+    assert_eq!(iter.next_back(), Some(&"abdomen"));
+    assert_eq!(iter.next(), Some(&"thorax"));
+
+    assert_eq!(iter.next_back(), None);
+    assert_eq!(iter.next(), None);
 }
 
 // faltten adapter
