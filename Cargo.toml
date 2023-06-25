@@ -1,5 +1,5 @@
 [package]
-name = "functional_programming_in_rust_course"
+name = "functional_programming_in_rust"
 version = "0.1.0"
 edition = "2021"
 
