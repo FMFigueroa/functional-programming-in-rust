@@ -254,9 +254,11 @@ fn main() {
     // chain adapter
     let v_chain: Vec<i32> = (1..4).chain(vec![20, 30, 40]).collect();
     assert_eq!(v_chain, [1, 2, 3, 20, 30, 40]);
+
     // chain adapter rev
     let v_chain: Vec<i32> = (1..4).chain(vec![20, 30, 40]).rev().collect();
     assert_eq!(v_chain, [40, 30, 20, 3, 2, 1]);
+
     // zip adapter
     let v_zip: Vec<_> = (0..).zip("ABCD".chars()).collect();
     assert_eq!(v_zip, vec![(0, 'A'), (1, 'B'), (2, 'C'), (3, 'D')]);
@@ -272,6 +274,7 @@ fn main() {
             ("going", "chicken soup with rice")
         ]
     );
+
     // by_ref adapter
     let message = "To: jimb\r\n\
     From: id\r\n\
@@ -287,10 +290,33 @@ fn main() {
     for body in lines {
         println!("{}", body);
     }
+
     // cloned vs copied adapter
     let a = vec!['1', '2', '3', '∞'];
     assert_eq!(a.iter().next(), Some(&'1'));
     assert_eq!(a.iter().cloned().next(), Some('1'));
+
+    // cycle adapter
+    let dirs = ["North", "East", "South", "West"];
+    let mut spin = dirs.iter().cycle();
+    assert_eq!(spin.next(), Some(&"North"));
+    assert_eq!(spin.next(), Some(&"East"));
+    assert_eq!(spin.next(), Some(&"South"));
+    assert_eq!(spin.next(), Some(&"West"));
+    assert_eq!(spin.next(), Some(&"North"));
+    assert_eq!(spin.next(), Some(&"East"));
+
+    use std::iter::once;
+    let fizzes = repeat("").take(2).chain(once("fizz")).cycle();
+    let buzzes = repeat("").take(4).chain(once("buzz")).cycle();
+    let fizzes_buzzes = fizzes.zip(buzzes);
+    let fizz_buzz = (1..20).zip(fizzes_buzzes).map(|tuple| match tuple {
+        (i, ("", "")) => i.to_string(),
+        (_, (fizz, buzz)) => format!("{}{}", fizz, buzz),
+    });
+    for line in fizz_buzz {
+        println!("{}", line);
+    }
 }
 
 // faltten adapter
