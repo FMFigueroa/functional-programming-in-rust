@@ -123,7 +123,7 @@ fn main() {
 
     // faltten adapter
     let name = "hernandez".to_string();
-    let s1 = to_uppercase(&name);
+    let s1 = to_uppercase_fn(&name);
     println!("{}", s1);
 
     // version 1
@@ -231,10 +231,33 @@ fn main() {
 
     assert_eq!(iter.next_back(), None);
     assert_eq!(iter.next(), None);
+
+    // rev adapter
+    let meals = ["breakfast", "lunch", "dinner"];
+
+    let mut iter = meals.iter().rev();
+    assert_eq!(iter.next(), Some(&"dinner"));
+    assert_eq!(iter.next(), Some(&"lunch"));
+    assert_eq!(iter.next(), Some(&"breakfast"));
+    assert_eq!(iter.next(), None);
+
+    // inspect adapter
+    let upper_case: String = "große"
+        .chars()
+        .inspect(|c| println!("before: {:?}", c))
+        .flat_map(|c| c.to_uppercase())
+        .inspect(|c| println!(" after: {:?}", c))
+        .collect();
+    assert_eq!(upper_case, "GROSSE");
+    println!("result of upper_case:{:?}", upper_case);
+
+    // chain adapter
+    let v_chain: Vec<i32> = (1..4).chain(vec![20, 30, 40]).collect();
+    assert_eq!(v_chain, [1, 2, 3, 20, 30, 40]);
 }
 
 // faltten adapter
-fn to_uppercase(input: &str) -> String {
+fn to_uppercase_fn(input: &str) -> String {
     input
         .chars()
         .map(char::to_uppercase)
