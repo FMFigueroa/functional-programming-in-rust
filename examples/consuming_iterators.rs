@@ -11,6 +11,10 @@ fn main() {
     // sum and product method
     assert_eq!(triangle(20), 210);
     assert_eq!(factorial(20), 2432902008176640000);
+
+    // min and max method
+    assert_eq!([-2, 0, 1, 0, -2, -5].iter().max(), Some(&1));
+    assert_eq!([-2, 0, 1, 0, -2, -5].iter().min(), Some(&-5));
 }
 
 // sum and product method
