@@ -53,6 +53,11 @@ fn main() {
     assert!(spaced < obscure);
     // This is true because 'Troy' > 'Sandusky'.
     assert!(spaced.split_whitespace().gt(obscure.split_whitespace()));
+
+    // any and all methods
+    let id = "Iterator";
+    assert!(id.chars().any(char::is_uppercase));
+    assert!(!id.chars().all(char::is_uppercase));
 }
 
 // sum and product methods
