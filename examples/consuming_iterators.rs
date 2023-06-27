@@ -58,6 +58,11 @@ fn main() {
     let id = "Iterator";
     assert!(id.chars().any(char::is_uppercase));
     assert!(!id.chars().all(char::is_uppercase));
+
+    // position, rposition, and ExactSizeIterator methods
+    let text = "Xerxes";
+    assert_eq!(text.chars().position(|c| c == 'e'), Some(1));
+    assert_eq!(text.chars().position(|c| c == 'z'), None);
 }
 
 // sum and product methods
