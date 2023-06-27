@@ -15,6 +15,13 @@ fn main() {
     // min and max method
     assert_eq!([-2, 0, 1, 0, -2, -5].iter().max(), Some(&1));
     assert_eq!([-2, 0, 1, 0, -2, -5].iter().min(), Some(&-5));
+
+    //max_by.. min_by method
+    let numbers = [1.0, 4.0, 2.0];
+    assert_eq!(numbers.iter().copied().max_by(cmp), Some(4.0));
+    assert_eq!(numbers.iter().copied().min_by(cmp), Some(1.0));
+    let numbers = [1.0, 4.0, NAN, 2.0];
+    assert_eq!(numbers.iter().copied().max_by(cmp), Some(4.0)); // panics
 }
 
 // sum and product method
@@ -24,4 +31,12 @@ fn triangle(n: u64) -> u64 {
 
 fn factorial(n: u64) -> u64 {
     (1..=n).product()
+}
+
+//max_by.. min_by method
+use std::cmp::Ordering;
+use std::f64::NAN;
+// Compare two f64 values. Panic if given a NaN.
+fn cmp(lhs: &f64, rhs: &f64) -> Ordering {
+    lhs.partial_cmp(rhs).unwrap()
 }
