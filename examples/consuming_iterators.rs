@@ -64,10 +64,34 @@ fn main() {
     assert_eq!(text.chars().position(|c| c == 'e'), Some(1));
     assert_eq!(text.chars().position(|c| c == 'z'), None);
 
-    //rposition
+    // rposition
     let bytes = b"Xerxes";
     assert_eq!(bytes.iter().rposition(|&c| c == b'e'), Some(4));
     assert_eq!(bytes.iter().rposition(|&c| c == b'X'), Some(0));
+
+    // fold and rfold methods
+    let a = [5, 6, 7, 8, 9, 10];
+    // count
+    assert_eq!(a.iter().fold(0, |n, _| n + 1), 6);
+    // sum
+    assert_eq!(a.iter().fold(0, |n, i| n + i), 45);
+    // product
+    assert_eq!(a.iter().fold(1, |n, i| n * i), 151200);
+    // max
+    assert_eq!(a.iter().cloned().fold(i32::min_value(), std::cmp::max), 10);
+
+    // string fold
+    let a = [
+        "Pack", "my", "box", "with", "five", "dozen", "liquor", "jugs",
+    ];
+    // See also: the `join` method on slices, which won't
+    // give you that extra space at the end.
+    let pangram = a.iter().fold(String::new(), |s, w| s + w + " ");
+    assert_eq!(pangram, "Pack my box with five dozen liquor jugs ");
+
+    // string rfold
+    let weird_pangram = a.iter().rfold(String::new(), |s, w| s + w + " ");
+    assert_eq!(weird_pangram, "jugs liquor dozen five with box my Pack ");
 }
 
 // sum and product methods
