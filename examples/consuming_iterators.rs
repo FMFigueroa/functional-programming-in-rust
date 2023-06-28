@@ -95,9 +95,17 @@ fn main() {
 
     // nth, nth_back methods
     let mut squares = (0..10).map(|i| i * i);
-    assert_eq!(squares.nth(4), Some(16));
-    assert_eq!(squares.nth(0), Some(25));
-    assert_eq!(squares.nth(9), None);
+    assert_eq!(squares.nth(1), Some(1)); // index 1
+    assert_eq!(squares.nth(0), Some(4)); // index 2
+    assert_eq!(squares.nth(2), Some(25)); // index 5
+    assert_eq!(squares.nth(1), Some(49)); // index 7
+    assert_eq!(squares.nth(0), Some(64)); // index 8
+    assert_eq!(squares.nth(0), Some(81)); // index 9
+    assert_eq!(squares.nth(10), None); // index 10
+
+    // last method
+    let squares = (0..10).map(|i| i * i);
+    assert_eq!(squares.last(), Some(81));
 }
 
 // sum and product methods
