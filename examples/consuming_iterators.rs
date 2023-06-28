@@ -92,6 +92,12 @@ fn main() {
     // string rfold
     let weird_pangram = a.iter().rfold(String::new(), |s, w| s + w + " ");
     assert_eq!(weird_pangram, "jugs liquor dozen five with box my Pack ");
+
+    // nth, nth_back methods
+    let mut squares = (0..10).map(|i| i * i);
+    assert_eq!(squares.nth(4), Some(16));
+    assert_eq!(squares.nth(0), Some(25));
+    assert_eq!(squares.nth(9), None);
 }
 
 // sum and product methods
