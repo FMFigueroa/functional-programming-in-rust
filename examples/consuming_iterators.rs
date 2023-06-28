@@ -106,6 +106,17 @@ fn main() {
     // last method
     let squares = (0..10).map(|i| i * i);
     assert_eq!(squares.last(), Some(81));
+
+    // find, rfind, and find_map methods
+    // find method
+    assert_eq!(
+        populations.iter().find(|&(_name, &pop)| pop > 1_000_000),
+        None
+    );
+    assert_eq!(
+        populations.iter().find(|&(_name, &pop)| pop > 500_000),
+        Some((&"Portland", &583_776))
+    );
 }
 
 // sum and product methods
