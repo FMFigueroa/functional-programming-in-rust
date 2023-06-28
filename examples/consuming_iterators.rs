@@ -117,6 +117,21 @@ fn main() {
         populations.iter().find(|&(_name, &pop)| pop > 500_000),
         Some((&"Portland", &583_776))
     );
+
+    // find_map method
+    /* let big_city_with_volcano_park = populations.iter().find_map(|(&city, _)| {
+        if let Some(park) = find_volcano_park(city, &parks) {
+            // find_map returns this value, so our caller knows
+            // *which* park we found.
+            return Some((city, park.name));
+        }
+        // Reject this item, and continue the search.
+        None
+    });
+    assert_eq!(
+        big_city_with_volcano_park,
+        Some(("Portland", "Mt. Tabor Park"))
+    ); */
 }
 
 // sum and product methods
