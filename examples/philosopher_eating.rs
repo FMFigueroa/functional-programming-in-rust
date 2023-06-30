@@ -1,14 +1,12 @@
 use std::sync::Arc;
 use tokio::{
-    sync::{Barrier, BarrierWaitResult, Notify},
+    sync::{Barrier, Notify},
     time::{sleep, Duration},
 };
 
 // cmd: cargo watch -q -c -w examples/ -x 'run --example philosopher_eating'
 
-async fn philosopher_eating(
-    name: &str, barrier: Arc<Barrier>, notify: Arc<Notify>,
-) -> BarrierWaitResult {
+async fn philosopher_eating(name: &str, barrier: Arc<Barrier>, notify: Arc<Notify>) -> () {
     println!("{} está comiendo.", name);
     //sleep(Duration::from_secs(1)).await; // Simulación de comer
     let wait_result = barrier.wait().await;
@@ -17,8 +15,6 @@ async fn philosopher_eating(
     if wait_result.is_leader() {
         notify.notify_one();
     }
-
-    wait_result
 }
 
 #[tokio::main]
@@ -29,30 +25,38 @@ async fn main() {
     let notify = Arc::new(Notify::new());
     notify.notify_one();
 
-    let philosophers: String =
-        "Gilles Deleuze, Emma Goldman, Judith Butler, Karl Marx, Michel Foucault".to_string();
+    let philosophers: Vec<&str> = vec![
+        "Gilles Deleuze",
+        "Emma Goldman",
+        "Judith Butler",
+        "Karl Marx",
+        "Michel Foucault",
+    ];
 
-    let task_handles: Vec<_> = philosophers
-        .split(", ")
-        .enumerate()
-        .map(|(i, philosopher)| {
-            let philosopher_arc = philosopher.clone();
+    let mut sorted_philosophers = philosophers.clone();
+    sorted_philosophers.sort(); // Ordenar alfabéticamente
+
+    let handle_spawn = sorted_philosophers.into_iter().enumerate().fold(
+        Vec::new(),
+        |mut handles, (i, philosopher)| {
+            let philosopher_arc = philosopher;
             let barrier_arc = barrier.clone();
             let notify_arc = notify.clone();
 
-            async move {
+            let handle = tokio::spawn(async move {
                 if i % total_philosopher_eating == 0 {
                     notify_arc.notified().await;
                     sleep(Duration::from_secs(1)).await;
                 }
-                tokio::spawn(philosopher_eating(philosopher_arc, barrier_arc, notify_arc))
-                    .await
-                    .unwrap()
-            }
-        })
-        .collect();
+                philosopher_eating(philosopher_arc, barrier_arc, notify_arc).await;
+            });
 
-    for handle in task_handles {
-        let result = handle.await;
+            handles.push(handle);
+            handles
+        },
+    );
+
+    for handle in handle_spawn {
+        let _result = handle.await.unwrap();
     }
 }
