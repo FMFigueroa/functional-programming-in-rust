@@ -132,6 +132,25 @@ fn main() {
         big_city_with_volcano_park,
         Some(("Portland", "Mt. Tabor Park"))
     ); */
+
+    // Building Collections: collect and FromIterator
+    /*use std::{
+        collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque},
+        env,
+    };*/
+    // Rust’s collections:
+    // Sequences
+    // let collect_1: Vec<String> = env::args().collect();
+    // let collect_2: VecDeque<String> = env::args().collect();
+    // let collect_3: LinkedList<String> = std::env::args().collect();
+    // Sets
+    // let collect_4: HashSet<String> = std::env::args().collect();
+    // let collect_5: BTreeSet<String> = std::env::args().collect();
+    // Maps
+    // let collect_6: HashMap<String, usize> = std::env::args().zip(0..).collect();
+    // let collect_7: BTreeMap<String, usize> = std::env::args().zip(0..).collect();
+    // Misc
+    // let collect_8: BinaryHeap<String> = std::env::args().collect();
 }
 
 // sum and product methods
