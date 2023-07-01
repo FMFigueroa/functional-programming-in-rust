@@ -156,6 +156,15 @@ fn main() {
     let mut v: Vec<i32> = (0..5).map(|i| 1 << i).collect();
     v.extend(&[31, 57, 99, 163]);
     assert_eq!(v, &[1, 2, 4, 8, 16, 31, 57, 99, 163]);
+
+    // Partition
+    let things = ["doorknob", "mushroom", "noodle", "giraffe", "grapefruit"];
+    // Amazing fact: the name of a living thing always starts with an odd-numbered letter.
+
+    let (living, nonliving): (Vec<&str>, Vec<&str>) =
+        things.iter().partition(|name| name.as_bytes()[0] & 1 != 0);
+    assert_eq!(living, vec!["mushroom", "giraffe", "grapefruit"]);
+    assert_eq!(nonliving, vec!["doorknob", "noodle"]);
 }
 
 // sum and product methods
