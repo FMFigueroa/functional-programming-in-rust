@@ -165,6 +165,42 @@ fn main() {
         things.iter().partition(|name| name.as_bytes()[0] & 1 != 0);
     assert_eq!(living, vec!["mushroom", "giraffe", "grapefruit"]);
     assert_eq!(nonliving, vec!["doorknob", "noodle"]);
+
+    // for_each
+    ["doves", "hens", "birds"]
+        .iter()
+        .zip(["turtle", "french", "calling"].iter())
+        .zip(2..5)
+        .rev()
+        .map(|((item, kind), quantity)| format!("{} {} {}", quantity, kind, item))
+        .for_each(|gift| {
+            println!("You have received: {}", gift);
+        });
+
+    // for loop
+    for gift in ["doves", "hens", "birds"]
+        .iter()
+        .zip(["turtle", "french", "calling"].iter())
+        .zip(2..5)
+        .rev()
+        .map(|((item, kind), quantity)| format!("{} {} {}", quantity, kind, item))
+    {
+        println!("You have received: {}", gift);
+    }
+    // try_for_each
+    let mut gifts = ["doves", "hens", "birds"]
+        .iter()
+        .zip(["turtle", "french", "calling"].iter())
+        .zip(2..5)
+        .rev()
+        .map(|((item, kind), quantity)| format!("{} {} {}", quantity, kind, item));
+
+    if let Err(error) = gifts.try_for_each(|gift| {
+        println!("Has recibido: {}", gift);
+        Result::<(), ()>::Ok(())
+    }) {
+        println!("Se produjo un error: {:?}", error);
+    }
 }
 
 // sum and product methods
