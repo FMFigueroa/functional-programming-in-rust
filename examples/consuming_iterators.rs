@@ -151,6 +151,11 @@ fn main() {
     // let collect_7: BTreeMap<String, usize> = std::env::args().zip(0..).collect();
     // Misc
     // let collect_8: BinaryHeap<String> = std::env::args().collect();
+
+    // The Extend Trait
+    let mut v: Vec<i32> = (0..5).map(|i| 1 << i).collect();
+    v.extend(&[31, 57, 99, 163]);
+    assert_eq!(v, &[1, 2, 4, 8, 16, 31, 57, 99, 163]);
 }
 
 // sum and product methods
