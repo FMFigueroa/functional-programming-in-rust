@@ -1,4 +1,4 @@
-// cmd: cargo watch -q -c -w examples/ -x 'run --example my_own_iterators'
+// cmd: cargo watch -q -c -w examples/ -x 'run --example 4_my_own_iterators'
 
 struct I32Range {
     start: i32,

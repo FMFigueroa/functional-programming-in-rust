@@ -1,4 +1,4 @@
-// cmd: cargo watch -q -c -w examples/ -x 'run --example consuming_iterators'
+// cmd: cargo watch -q -c -w examples/ -x 'run --example 2_consuming_iterators'
 fn main() {
     // count method
     /* let mut input = String::new();

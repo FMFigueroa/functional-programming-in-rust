@@ -1,3 +1,4 @@
+// cmd: cargo watch -q -c -w examples/ -x 'run --example 1_iterators'
 fn main() {
     let text = " ponies \n  giraffes \n iguanas\nsquid ".to_string();
 

@@ -1,6 +1,6 @@
 use std::{error::Error, io::prelude::*, str::FromStr};
 
-// cmd: cargo watch -q -c -w examples/ -x 'run --example try_fold'
+// cmd: cargo watch -q -c -w examples/ -x 'run --example 3_try_fold'
 
 fn main() -> Result<(), Box<dyn Error>> {
     let stdin = std::io::stdin();

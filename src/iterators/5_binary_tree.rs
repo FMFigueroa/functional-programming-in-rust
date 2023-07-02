@@ -1,4 +1,4 @@
-// cmd: cargo watch -q -c -w examples/ -x 'run --example binary_tree'
+// cmd: cargo watch -q -c -w examples/ -x 'run --example 5_binary_tree'
 enum BinaryTree<T> {
     Empty,
     NonEmpty(Box<TreeNode<T>>),

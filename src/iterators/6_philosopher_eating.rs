@@ -1,10 +1,9 @@
+// cmd: cargo watch -q -c -w examples/ -x 'run --example 6_philosopher_eating'
 use std::sync::Arc;
 use tokio::{
     sync::{Barrier, Notify},
     time::{sleep, Duration},
 };
-
-// cmd: cargo watch -q -c -w examples/ -x 'run --example philosopher_eating'
 
 async fn philosopher_eating(name: &str, barrier: Arc<Barrier>, notify: Arc<Notify>) -> () {
     println!("{} está comiendo.", name);
