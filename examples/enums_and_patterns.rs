@@ -1,6 +1,8 @@
 // cmd: cargo watch -q -c -w examples/ -x 'run --example enums_and_patterns'
 use std::mem::size_of;
 
+
+#[allow(dead_code)]
 //#[repr(C)]
 enum Ordering {
     Less,
@@ -8,6 +10,7 @@ enum Ordering {
     Greater,
 }
 
+#[allow(dead_code)]
 enum HttpStatus {
     Ok = 200,
     NotModified = 304,
